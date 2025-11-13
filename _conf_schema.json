@@ -1,0 +1,99 @@
+{
+  "dingtalk_notify": {
+    "description": "钉钉自定义机器人API",
+    "type": "object",
+    "hint": "预留接口，暂无实际用途",
+    "items": {
+      "access_token": {
+        "description": "钉钉自定义机器人access_token",
+        "type": "string",
+        "default": ""
+      },
+      "secret": {
+        "description": "钉钉自定义机器人secret",
+        "type": "string",
+        "default": ""
+      }
+    }
+  },
+  "balance_check": {
+    "description": "LLM服务商余额查询",
+    "type": "object",
+    "hint": "目前仅支持硅基流动",
+    "items": {
+      "provider_name_1": {
+        "description": "服务商1 名称",
+        "type": "string",
+        "default": "硅基流动"
+      },
+      "provider_key_1": {
+        "description": "服务商1 APIKEY",
+        "type": "string",
+        "default": ""
+      }
+    }
+  },
+  "rain_report": {
+    "description": "和风天气API",
+    "type": "object",
+    "items": {
+      "private_key": {
+        "description": "和风天气私钥",
+        "hint": "将依照和风天气JWT身份认证生成的ed25519-private.pem文件以记事本形式打开,，在此处粘贴全部内容",
+        "type": "string",
+        "default": ""
+      },
+      "api_host": {
+        "description": "和风天气api_host",
+        "type": "string",
+        "default": ""
+      },
+      "kid": {
+        "description": "和风天气kid",
+        "type": "string",
+        "default": ""
+      },
+      "sub": {
+        "description": "和风天气sub",
+        "type": "string",
+        "default": ""
+      },
+      "location_list": {
+        "description": "天气监测点坐标经纬度",
+        "type": "list",
+        "hint": "经度在前纬度在后，英文逗号分隔，十进制格式，北纬东经为正，南纬西经为负。例：116.41,39.95",
+        "default": []
+      }
+    }
+  },
+  "email_monitor": {
+    "description": "邮箱SMTP信息",
+    "type": "object",
+    "items": {
+      "username": {
+        "description": "SMTP账号",
+        "type": "string",
+        "hint": "通常为邮箱名",
+        "default": ""
+      },
+      "password": {
+        "description": "SMTP密码",
+        "type": "string",
+        "hint": "登录密码或授权码",
+        "default": ""
+      },
+      "url": {
+        "description": "SMTPurl",
+        "type": "string",
+        "hint": "SMTP地址",
+        "default": ""
+      },
+      "port": {
+        "description": "SMTPport",
+        "type": "int",
+        "hint": "SMTP端口（默认值为QQ邮箱993）",
+        "default": 993
+      }
+    }
+  }
+}
