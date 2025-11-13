@@ -216,7 +216,7 @@ class EmailInboxChecker:
         """析构函数，确保连接被关闭"""
         self.close_connection()
 
-@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一")
+@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一", "0.1.1")
 class OnlineAS(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
