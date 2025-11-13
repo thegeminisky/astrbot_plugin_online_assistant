@@ -216,7 +216,7 @@ class EmailInboxChecker:
         """析构函数，确保连接被关闭"""
         self.close_connection()
 
-@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一", "0.1.0")
+@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一")
 class OnlineAS(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
@@ -243,9 +243,9 @@ class OnlineAS(Star):
     def online_assistant(self):
         pass
 
-    # 注册指令的装饰器。指令名为'邮箱查询'。注册成功后，发送 `/助手 邮箱查询` 就会触发这个指令。
+    # 注册指令的装饰器。指令名为'邮箱'。注册成功后，发送 `/助手 邮箱` 就会触发这个指令。
     @filter.permission_type(filter.PermissionType.ADMIN)
-    @online_assistant.command("邮箱查询")
+    @online_assistant.command("邮箱")
     async def online_assistant_email_check(self, event: AstrMessageEvent):
         """这是一个未读邮件查询指令"""
         user_name = event.get_sender_name()

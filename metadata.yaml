@@ -1,6 +1,6 @@
 name: astrbot_plugin_online_assistant
 display_name: 小助手太一
 desc: 太一，您的私人小秘，提供未读邮件查询、更适合大学生体质的天气预报和LLM提供商余额查询等功能
-version: v0.1.0
+version: v0.1.1
 author: TheGeminisky
 repo: https://github.com/thegeminisky/astrbot_plugin_online_assistant
