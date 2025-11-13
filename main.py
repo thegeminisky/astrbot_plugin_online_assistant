@@ -265,6 +265,7 @@ class OnlineAS(Star):
         yield event.plain_result(f"未读邮件: {count}封") # 发送一条纯文本消息
 
     # 注册指令的装饰器。指令名为'天气'。注册成功后，发送 `/助手 天气` 就会触发这个指令。
+    @filter.permission_type(filter.PermissionType.ADMIN)
     @online_assistant.command("天气")
     async def online_assistant_weather_check(self, event: AstrMessageEvent):
         """这是一个天气查询指令"""
