@@ -8,6 +8,7 @@ import requests
 from datetime import datetime, timezone, time
 import pytz
 import aiohttp
+import httpx
 
 class RainReport:
     @staticmethod
@@ -216,7 +217,7 @@ class EmailInboxChecker:
         """析构函数，确保连接被关闭"""
         self.close_connection()
 
-@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一", "0.1.1")
+@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一", "0.2.1")
 class OnlineAS(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
@@ -359,3 +360,21 @@ class OnlineAS(Star):
                         yield event.plain_result("获取硅基流动余额失败：" + data.get('message', '未知错误'))
             except aiohttp.ClientError as e:
                 yield event.plain_result(f"请求错误: {e}")
+
+    # 注册指令的装饰器。指令名为'新闻'。注册成功后，发送 `/助手 新闻` 就会触发这个指令。
+    @filter.permission_type(filter.PermissionType.ADMIN)
+    @online_assistant.command("新闻")
+    async def online_assistant_news(self, event: AstrMessageEvent):
+        """获取当天的每天60秒读懂世界"""
+        # 构建请求链接
+        url = f"https://{self.config.get('news_host')}/v2/60s?encoding=text"
+        # 发起请求
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.get(url)
+                response.raise_for_status()  # 检查请求是否成功
+                yield event.plain_result(response.text)
+            except httpx.HTTPError as e:
+                yield event.plain_result(f"HTTP错误: {e}")
+            except Exception as e:
+                yield event.plain_result(f"其他错误: {e}")
