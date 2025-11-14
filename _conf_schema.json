@@ -100,6 +100,6 @@
     "description": "每天60秒读懂世界公共实例Host",
     "type": "string",
     "hint": "如失效请查阅进行替换：https://docs.60s-api.viki.moe/7306811m0",
-    "default": ""
+    "default": "60api.09cdn.xyz"
   }
 }
