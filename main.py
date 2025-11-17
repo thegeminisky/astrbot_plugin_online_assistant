@@ -9,6 +9,7 @@ from datetime import datetime, timezone, time
 import pytz
 import aiohttp
 import httpx
+import json
 
 class RainReport:
     @staticmethod
@@ -378,3 +379,20 @@ class OnlineAS(Star):
                 yield event.plain_result(f"HTTP错误: {e}")
             except Exception as e:
                 yield event.plain_result(f"其他错误: {e}")
+
+    # 注册私聊中自动识别b站视频卡片并返回直链的程序
+    @filter.event_message_type(filter.EventMessageType.PRIVATE_MESSAGE)
+    async def extract_real_url(self, event: AstrMessageEvent):
+        if "哔哩哔哩" in event.message_obj.raw_message.raw_message:
+            logger.info("触发b站直链提取")
+            json_obj = json.loads(event.message_obj.message[0].data)
+            raw_url=json_obj["meta"]["detail_1"]["qqdocurl"]
+            if '?' in raw_url:
+                real_url = raw_url.split('?')[0]
+            else:
+                real_url = raw_url
+            yield event.plain_result(real_url)
+            logger.info("解析完毕")
+            event.stop_event()
+        else:
+            pass
