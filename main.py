@@ -218,7 +218,7 @@ class EmailInboxChecker:
         """析构函数，确保连接被关闭"""
         self.close_connection()
 
-@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一", "0.2.1")
+@register("astrbot_plugin_online_assistant", "thegeminisky", "在线小助理太一", "0.3.1")
 class OnlineAS(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
@@ -380,19 +380,27 @@ class OnlineAS(Star):
             except Exception as e:
                 yield event.plain_result(f"其他错误: {e}")
 
-    # 注册私聊中自动识别b站视频卡片并返回直链的程序
-    @filter.event_message_type(filter.EventMessageType.PRIVATE_MESSAGE)
+    # 注册自动识别分享卡片并返回直链的程序
+    @filter.event_message_type(filter.EventMessageType.ALL)
     async def extract_real_url(self, event: AstrMessageEvent):
-        if "哔哩哔哩" in event.message_obj.raw_message.raw_message:
-            logger.info("触发b站直链提取")
-            json_obj = json.loads(event.message_obj.message[0].data)
-            raw_url=json_obj["meta"]["detail_1"]["qqdocurl"]
-            if '?' in raw_url:
-                real_url = raw_url.split('?')[0]
-            else:
-                real_url = raw_url
-            yield event.plain_result(real_url)
-            logger.info("解析完毕")
-            event.stop_event()
+        if not event.message_obj.message_str:
+            try:
+                logger.info("触发直链提取")
+                json_obj = json.loads(event.message_obj.message[0].data)
+                try:
+                    raw_url=json_obj["meta"]["detail_1"]["qqdocurl"]
+                except:
+                    raw_url = json_obj["meta"]["news"]["jumpUrl"]
+                if '?' in raw_url:
+                    real_url = raw_url.split('?')[0]
+                else:
+                    real_url = raw_url
+                yield event.plain_result(real_url)
+                logger.info("解析完毕")
+                event.stop_event()
+            except Exception as e:
+                logger.info(e)
+                yield event.plain_result("解析失败，不支持的Json结构")
+                event.stop_event()
         else:
             pass
