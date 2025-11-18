@@ -383,7 +383,7 @@ class OnlineAS(Star):
     # 注册自动识别分享卡片并返回直链的程序
     @filter.event_message_type(filter.EventMessageType.ALL)
     async def extract_real_url(self, event: AstrMessageEvent):
-        if not event.message_obj.message_str:
+        if event.message_obj.message[0].type == "Json":
             try:
                 logger.info("触发直链提取")
                 json_obj = json.loads(event.message_obj.message[0].data)
